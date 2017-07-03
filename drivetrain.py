@@ -85,7 +85,7 @@ class DriveTrain:
     def driveHybrid(self, x, y, z):
         # Determine which axis is dominant:
         if abs(z) > abs(y):
-            # Turn left for positive z and turn right for negative z
+            # Turn left for negative z and turn right for positive z
             self._setSpeed(_LEFT, z * 100 / self._speedDivisor)
             self._setSpeed(_RIGHT, -z * 100 / self._speedDivisor)
         else:
