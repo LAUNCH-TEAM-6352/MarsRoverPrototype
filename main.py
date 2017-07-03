@@ -2,6 +2,10 @@ import joystick
 import drivetrain
 import time
 
+# A prototype of the Mars Rover main module
+# which contains an infinite loop to process
+# joystick input.
+
 joystick = joystick.Joystick()
 if not joystick.isInitialized:
     print("Joystick failed initialization:", joystick.initializationError)
