@@ -38,8 +38,9 @@ class DriveTrain:
         # The following creates an array of two PWM channels, one for each motor:
         self._pwms = [ GPIO.PWM(_MOTOR_PINS[_LEFT][2], _FREQ), GPIO.PWM(_MOTOR_PINS[_RIGHT][2], _FREQ) ]
 
-        # Set the default speed divisor:
-        self._speedDivisor = 1
+        # Set the default speed divisors:
+        self._longitudinalSpeedDivisor = 1
+        self._turnSpeedDivisor = 1
         
         # Make sure everything is stopped:
         self._stop(_LEFT)
@@ -73,9 +74,13 @@ class DriveTrain:
         # Set speed:
         self._pwms[motor].ChangeDutyCycle(abs(speedVal))
 
-    # Sets the divisor to limit max speed.
-    def setSpeedDivisor(self, speedDivisor):
-        self._speedDivisor = speedDivisor
+    # Sets the divisor to limit max turn speed.
+    def setTurnSpeedDivisor(self, speedDivisor):
+        self._turnSpeedDivisor = speedDivisor
+ 
+    # Sets the divisor to limit maxlongitudinal (forward/backward) speed.
+    def setLongitudinalSpeedDivisor(self, speedDivisor):
+        self._longitudinalSpeedDivisor = speedDivisor       
 
     # Drives using a hybrid method using the axis values from a joystick.
     # All axis values are between -1.0 and +1.0.
@@ -86,12 +91,12 @@ class DriveTrain:
         # Determine which axis is dominant:
         if abs(z) > abs(y):
             # Turn left for negative z and turn right for positive z
-            self._setSpeed(_LEFT, z * 100 / self._speedDivisor)
-            self._setSpeed(_RIGHT, -z * 100 / self._speedDivisor)
+            self._setSpeed(_LEFT, z * 100 / self._turnSpeedDivisor)
+            self._setSpeed(_RIGHT, -z * 100 / self._turnSpeedDivisor)
         else:
             # Move forward or backward (note that negative y values indicate forward movement):
-            self._setSpeed(_LEFT, -y * 100 / self._speedDivisor)
-            self._setSpeed(_RIGHT, -y * 100 / self._speedDivisor)
+            self._setSpeed(_LEFT, -y * 100 / self._longitudinalSpeedDivisor)
+            self._setSpeed(_RIGHT, -y * 100 / self._longitudinalSpeedDivisor)
 
     # Stops all motors.
     def stop(self):

@@ -12,7 +12,8 @@ if not joystick.isInitialized:
     exit
 
 driveTrain = drivetrain.DriveTrain()
-driveTrain.setSpeedDivisor(4)
+driveTrain.setTurnSpeedDivisor(2)
+driveTrain.setLongitudinalSpeedDivisor(4)
 
 print("Press and hold button 11 to stop.")
 
